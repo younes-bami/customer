@@ -84,9 +84,3 @@ spec:
           privileged: false
       serviceAccount: "recommendation"
 
----
-apiVersion: "v1"
-kind: "ServiceAccount"
-metadata:
-  name: "recommendation"
-  namespace: canary-release
