@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: recommendation
+  namespace: canary
+spec:
+  hosts:
+  - recommendation
+  http:
+  - match:
+    - headers:
+        agent:
+          regex: .*Firefox.*
+    name: header-route
+    route:
+    - destination:
+        host: recommendation
+        subset: canary
+      weight: 100
+  - name: primary
+    route:
+    - destination:
+        host: recommendation
+        subset: stable
+      weight: 0
+    - destination:
+        host: recommendation
+        subset: canary
+      weight: 100

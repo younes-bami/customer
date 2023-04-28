@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  creationTimestamp: "2023-04-26T09:06:37Z"
+  generation: 208
+  name: recommendation
+  namespace: canary
+  resourceVersion: "170333"
+  uid: 9b31526d-3e58-4eb1-8b77-17b41fb2e9e3
+spec:
+  hosts:
+  - recommendation
+  http:
+  - match:
+    - headers:
+        version:
+          exact: "1"
+    name: header-route
+    route:
+    - destination:
+        host: recommendation
+        subset: canary
+      weight: 100
+  - name: primary
+    route:
+    - destination:
+        host: recommendation
+        subset: stable
+      weight: 100
+    - destination:
+        host: recommendation
+        subset: canary
+      weight: 0
